@@ -2,6 +2,9 @@ import argparse
 import sys
 import logging
 from simple_supply_subscriber.database import Database
+from simple_supply_subscriber.subscriber import Subscriber
+from simple_supply_subscriber.event_handling import get_events_handler
+KNOWN_COUNT = 15
 LOGGER = logging.getLogger(__name__)
 def parse_args(args):
     parser = argparse.ArgumentParser(add_help=False)
@@ -56,13 +59,19 @@ def init_logger(level):
 def do_subscribe(opts):
     LOGGER.info('Starting subscriber...')
     try:
-        database = Database(
-            opts.db_host,
-            opts.db_port,
+        dsn = 'dbname={} user={} password={} host={} port={}'.format(
             opts.db_name,
             opts.db_user,
-            opts.db_password)
+            opts.db_password,
+            opts.db_host,
+            opts.db_port)
+        database = Database(dsn)
         database.connect()
+        subscriber = Subscriber(opts.connect)
+        subscriber.add_handler(get_events_handler(database))
+        known_blocks = database.fetch_last_known_blocks(KNOWN_COUNT)
+        known_ids = [block['block_id'] for block in known_blocks]
+        subscriber.start(known_ids=known_ids)
     except KeyboardInterrupt:
         sys.exit(0)
     except Exception as err:  # pylint: disable=broad-except
@@ -71,18 +80,20 @@ def do_subscribe(opts):
     finally:
         try:
             database.disconnect()
+            subscriber.stop()
         except UnboundLocalError:
             pass
     LOGGER.info('Subscriber shut down successfully')
 def do_init(opts):
     LOGGER.info('Initializing subscriber...')
     try:
-        database = Database(
-            opts.db_host,
-            opts.db_port,
+        dsn = 'dbname={} user={} password={} host={} port={}'.format(
             opts.db_name,
             opts.db_user,
-            opts.db_password)
+            opts.db_password,
+            opts.db_host,
+            opts.db_port)
+        database = Database(dsn)
         database.connect()
         database.create_tables()
     except Exception as err:  # pylint: disable=broad-except
