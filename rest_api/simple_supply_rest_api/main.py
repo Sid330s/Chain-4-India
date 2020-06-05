@@ -54,6 +54,8 @@ def start_rest_api(host, port, messenger, database):
     loop = asyncio.get_event_loop()
     asyncio.ensure_future(database.connect())
     app = web.Application(loop=loop)
+    app['aes_key'] = 'ffffffffffffffffffffffffffffffff'
+    app['secret_key'] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     messenger.open_validator_connection()
     handler = RouteHandler(loop, messenger, database)
     app.router.add_post('/authorization', handler.authorize)
