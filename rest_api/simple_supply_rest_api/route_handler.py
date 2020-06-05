@@ -1,8 +1,8 @@
 from aiohttp.web import HTTPNotImplemented
 class RouteHandler(object):
-    def __init__(self, loop, validator_connection, database):
+    def __init__(self, loop, messenger, database):
         self._loop = loop
-        self._validator_connection = validator_connection
+        self._messenger = messenger
         self._database = database
     async def authorize(self, request):
         raise HTTPNotImplemented()
