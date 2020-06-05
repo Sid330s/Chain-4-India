@@ -83,7 +83,9 @@ disable=print-statement,
         dict-keys-not-iterating,
         dict-values-not-iterating,
         missing-docstring,
-        too-many-arguments
+        too-many-arguments,
+        too-many-ancestors,
+        no-member
 enable=c-extension-no-member
 [REPORTS]
 evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)
