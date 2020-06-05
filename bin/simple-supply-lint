@@ -8,6 +8,7 @@ lint() {
     return $error
 }
 ret_val=0
+export PYTHONPATH=$PYTHONPATH:$TOP_DIR/protobuf
 export PYTHONPATH=$PYTHONPATH:$TOP_DIR/addressing
 lint addressing/simple_supply_addressing || ret_val=1
 export PYTHONPATH=$PYTHONPATH:$TOP_DIR/processor
