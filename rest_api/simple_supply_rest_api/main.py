@@ -52,6 +52,7 @@ def parse_args(args):
     return parser.parse_args(args)
 def start_rest_api(host, port, messenger, database):
     loop = asyncio.get_event_loop()
+    asyncio.ensure_future(database.connect())
     app = web.Application(loop=loop)
     messenger.open_validator_connection()
     handler = RouteHandler(loop, messenger, database)
@@ -87,7 +88,8 @@ def main():
             opts.db_port,
             opts.db_name,
             opts.db_user,
-            opts.db_password)
+            opts.db_password,
+            loop)
         try:
             host, port = opts.bind.split(":")
             port = int(port)
@@ -100,4 +102,5 @@ def main():
         LOGGER.exception(err)
         sys.exit(1)
     finally:
+        database.disconnect()
         messenger.close_validator_connection()
