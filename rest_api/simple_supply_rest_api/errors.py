@@ -35,3 +35,8 @@ class ApiInternalError(_ApiError):
         self.status_code = 500
         self.message = 'Internal Error: ' + message
         super().__init__()
+class ApiNotFound(_ApiError):
+    def __init__(self, message):
+        self.status_code = 404
+        self.message = 'Not Found: ' + message
+        super().__init__()
