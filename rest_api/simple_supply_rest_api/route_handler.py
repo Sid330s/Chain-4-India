@@ -31,15 +31,10 @@ class RouteHandler(object):
         hashed_password = hash_password(body.get('password'))
         await self._database.create_auth_entry(
             public_key, encrypted_private_key, hashed_password)
-        resource = await self._database.fetch_agent_resource(public_key)
-        if resource is None:
+        agent = await self._database.fetch_agent_resource(public_key)
+        if agent is None:
             raise ApiInternalError(
                 'Transaction committed but not yet reported')
-        agent = {
-            'publicKey': resource['public_key'],
-            'name': resource['name'],
-            'timestamp': resource['timestamp']
-        }
         authorization = generate_auth_token(
             request.app['secret_key'], public_key)
         response = {
