@@ -10,6 +10,8 @@ class SimpleSupplyPayload(object):
     def data(self):
         if self._transaction.HasField('create_agent'):
             return self._transaction.create_agent
+        if self._transaction.HasField('create_record'):
+            return self._transaction.create_record
         return None
     @property
     def timestamp(self):
