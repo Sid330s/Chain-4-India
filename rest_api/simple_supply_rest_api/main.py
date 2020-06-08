@@ -58,7 +58,7 @@ def start_rest_api(host, port, messenger, database):
     app['secret_key'] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     messenger.open_validator_connection()
     handler = RouteHandler(loop, messenger, database)
-    app.router.add_post('/authorization', handler.authorize)
+    app.router.add_post('/authentication', handler.authenticate)
     app.router.add_post('/agents', handler.create_agent)
     app.router.add_get('/agents', handler.list_agents)
     app.router.add_get('/agents/{agent_id}', handler.fetch_agent)
