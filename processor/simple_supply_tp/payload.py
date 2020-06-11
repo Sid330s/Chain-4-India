@@ -12,6 +12,8 @@ class SimpleSupplyPayload(object):
             return self._transaction.create_agent
         if self._transaction.HasField('create_record'):
             return self._transaction.create_record
+        if self._transaction.HasField('transfer_record'):
+            return self._transaction.transfer_record
         return None
     @property
     def timestamp(self):
