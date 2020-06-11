@@ -136,6 +136,7 @@ class-naming-style=PascalCase
 const-naming-style=UPPER_CASE
 docstring-min-length=-1
 function-naming-style=snake_case
+function-rgx=[a-z_][a-z0-9_]{2,40}$
 good-names=i,
            j,
            k,
@@ -145,6 +146,7 @@ good-names=i,
 include-naming-hint=no
 inlinevar-naming-style=any
 method-naming-style=snake_case
+method-rgx=[a-z_][a-z0-9_]{2,40}$
 module-naming-style=snake_case
 name-group=
 no-docstring-rgx=^_
