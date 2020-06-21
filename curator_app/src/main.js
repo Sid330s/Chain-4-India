@@ -11,6 +11,7 @@ const RegisterArtworkForm = require('./views/register_artwork_form')
 const Dashboard = require('./views/dashboard')
 const LoginForm = require('./views/login_form')
 const ArtworkList = require('./views/artwork_list')
+const ArtworkDetailPage = require('./views/artwork_detail')
 const SignupForm = require('./views/signup_form')
 const Layout = {
   view (vnode) {
@@ -77,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     '/logout': { onmatch: logout },
     '/profile': { onmatch: profile},
     '/artworks': resolve(ArtworkList),
+    '/artworks/:recordId': resolve(ArtworkDetailPage),
     '/signup': resolve(SignupForm)
   })
 })
