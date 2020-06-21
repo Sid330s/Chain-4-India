@@ -112,9 +112,9 @@ class Database(object):
                 await cursor.execute(fetch_record)
                 record = await cursor.fetchone()
                 await cursor.execute(fetch_record_locations)
-                record['locations'] = await cursor.fetchone()
+                record['locations'] = await cursor.fetchall()
                 await cursor.execute(fetch_record_owners)
-                record['owners'] = await cursor.fetchone()
+                record['owners'] = await cursor.fetchall()
                 return record
             except TypeError:
                 return None
