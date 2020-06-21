@@ -6,6 +6,7 @@ const m = require('mithril')
 const api = require('./services/api')
 const navigation = require('./components/navigation')
 const AgentList = require('./views/agent_list')
+const AgentDetailPage = require('./views/agent_detail')
 const RegisterArtworkForm = require('./views/register_artwork_form')
 const Dashboard = require('./views/dashboard')
 const LoginForm = require('./views/login_form')
@@ -58,15 +59,19 @@ const resolve = (view, restricted = false) => {
   return resolver
 }
 const logout = () => {
+  api.clearAuth()
   m.route.set('/')
 }
 const profile = () => {
-  m.route.set('/')
+  const publicKey = api.getPublicKey()
+  if (publicKey) m.route.set(`/agents/${publicKey}`)
+  else m.route.set('/')
 }
 document.addEventListener('DOMContentLoaded', () => {
   m.route(document.querySelector('#app'), '/', {
     '/': resolve(Dashboard),
     '/agents': resolve(AgentList),
+    '/agents/:publicKey': resolve(AgentDetailPage),
     '/register': resolve(RegisterArtworkForm, true),
     '/login': resolve(LoginForm),
     '/logout': { onmatch: logout },
