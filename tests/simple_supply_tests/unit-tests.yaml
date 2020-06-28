@@ -5,7 +5,7 @@ services:
       context: ../..
       dockerfile: ./shell/Dockerfile
     image: sawtooth-simple-supply-shell
-    container_name: simple-supply-shell
+    container_name: simple-supply-shell-test
     volumes:
       - ../..:/project/sawtooth-simple-supply
     command: |
@@ -18,7 +18,7 @@ services:
         context: ../..
         dockerfile: ./processor/Dockerfile
     image: sawtooth-simple-supply-tp
-    container_name: simple-supply-tp
+    container_name: simple-supply-tp-test
     volumes:
       - '../..:/project/sawtooth-simple-supply'
     command: |
