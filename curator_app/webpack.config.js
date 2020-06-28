@@ -33,5 +33,9 @@ module.exports = {
       'window.jQuery': 'jquery',
       Popper: ['popper.js', 'default']
     })
-  ]
+  ],
+  performance: {
+    hints: false
+  },
+  mode: 'production'
 }
