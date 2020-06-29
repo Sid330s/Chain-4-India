@@ -48,7 +48,7 @@ class RouteHandler(object):
         token = generate_auth_token(
             request.app['secret_key'], public_key)
         return json_response({'authorization': token})
-    async def list_agents(self):
+    async def list_agents(self, _request):
         agent_list = await self._database.fetch_all_agent_resources()
         return json_response(agent_list)
     async def fetch_agent(self, request):
@@ -71,7 +71,7 @@ class RouteHandler(object):
             timestamp=get_time())
         return json_response(
             {'data': 'Create record transaction submitted'})
-    async def list_records(self):
+    async def list_records(self, _request):
         record_list = await self._database.fetch_all_record_resources()
         return json_response(record_list)
     async def fetch_record(self, request):
